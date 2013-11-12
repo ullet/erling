@@ -1,0 +1,3 @@
+First = fun([F|_]) -> F end.
+
+Last = fun(L) -> T = fun(F, [X]) -> X; (F, [_|T]) -> F(F, T) end, T(T, L) end.

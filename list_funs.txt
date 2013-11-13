@@ -4,3 +4,4 @@ Last = fun(L) -> T = fun(F, [X]) -> X; (F, [_|T]) -> F(F, T) end, T(T, L) end.
 
 Nth = fun(L, N) -> F = fun(F, [], _) -> nothing; (F, [X|_], 0) -> X; (F, [_|R], M) -> F(F, R, M-1) end, F(F, L, N) end.
 
+Append = fun(L1, L2) -> R = fun(R, [], L2) -> L2; (R, [X], L2) -> [X|L2]; (R, [H|T], L2) -> [H|R(R, T, L2)] end, R(R, L1, L2) end.

@@ -34,3 +34,14 @@ flatten2([]) -> [];
 flatten2([X]) when is_list(X) -> flatten2(X);
 flatten2([X]) -> [X];
 flatten2([T|H]) -> flatten2([T]) ++ flatten2(H).
+
+sequence(F, T, S, Acc) when is_list(Acc) and is_integer(S) and (((S < 0) and (F < T)) or ((S >= 0) and (F > T))) -> Acc;
+sequence(F, T, S, Acc) when is_list(Acc) and is_integer(S) -> case ((F == T) or maths:divisible(T-F, S)) of
+                                              true  -> sequence(F, T-S, S, [T|Acc]);
+                                              false -> sequence(F, F+(S*maths:floor((T-F)/S)), S, Acc) end.                                                                                            
+
+sequence(F, T, S) when is_integer(S) -> sequence(F, T, S, []).
+
+sequence(F, T) -> sequence(F, T, 1).
+
+sequence(N) -> sequence(0, N-1).

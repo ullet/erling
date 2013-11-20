@@ -12,7 +12,8 @@
           reverse/1,
           remove_duplicates/1,
           count/1,
-          map/2
+          map/2,
+          remove_consecutive_duplicates/1
         ]).
 
 % ------------ % ------------- % -------------- % ------------- % ------------ %
@@ -66,6 +67,8 @@ count([_|H]) -> 1 + count(H).
 
 map(F, L) -> [F(X) || X <- L].
 
+remove_consecutive_duplicates(L) -> remove_consecutive_duplicates(reverse(L), []).
+
 % ------------ % ------------- % -------------- % ------------- % ------------ %
 
 last_in_sequence(From, To, Step) when is_integer(Step) -> To - ((To - From) rem Step).
@@ -76,6 +79,11 @@ reverse([T|H], Acc) -> reverse(H, [T|Acc]).
 % removes duplicates but doesn't preserve order,
 % infact is the 'correct' order if the list was in the reverse order
 remove_duplicates([], Acc) -> Acc;
-remove_duplicates([T|H], Acc) -> case contains(T, H) of
-                                   true -> remove_duplicates(H, Acc);
-                                   false -> remove_duplicates(H, [T|Acc]) end.
+remove_duplicates([H|T], Acc) -> case contains(H, T) of
+                                   true -> remove_duplicates(T, Acc);
+                                   false -> remove_duplicates(T, [H|Acc]) end.
+
+remove_consecutive_duplicates([], Acc) -> Acc;
+remove_consecutive_duplicates([X], Acc) -> [X|Acc];
+remove_consecutive_duplicates([X,X|T], Acc) -> remove_consecutive_duplicates([X|T], Acc);
+remove_consecutive_duplicates([X,Y|T], Acc) -> remove_consecutive_duplicates([Y|T], [X|Acc]).
